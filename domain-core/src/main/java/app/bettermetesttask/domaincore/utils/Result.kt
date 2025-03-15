@@ -23,3 +23,25 @@ sealed class Result<out T> {
             is Error -> "Error[throwable= $error]"
         }
 }
+
+
+inline fun <T> Result<T>.onSuccess(action: (T) -> Unit): Result<T> {
+    return when (this) {
+        is Result.Error -> this
+        is Result.Success -> {
+            action(data)
+            this
+        }
+    }
+}
+
+inline fun <T> Result<T>.onError(action: (Throwable) -> Unit): Result<T> {
+    return when (this) {
+        is Result.Error -> {
+            action(error)
+            this
+        }
+
+        is Result.Success -> this
+    }
+}

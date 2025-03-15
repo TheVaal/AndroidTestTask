@@ -131,6 +131,7 @@ ext {
             icons         : "androidx.compose.material:material-icons-extended",
             adaptive      : "androidx.compose.material3.adaptive:adaptive",
             viewModel     : "androidx.lifecycle:lifecycle-viewmodel-compose:$composeViewModelVer",
+            activity      : "androidx.activity:activity-compose:1.8.0"
     ]
 
     coilDependencies = [

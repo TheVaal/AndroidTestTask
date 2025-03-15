@@ -54,7 +54,7 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
         viewModel.loadMovies()
 
         job = lifecycleScope.launchWhenCreated {
-            viewModel.moviesStateFlow.collect(::renderMoviesState)
+            viewModel.uiState.collect(::renderMoviesState)
         }
     }
 
@@ -66,11 +66,11 @@ class MoviesFragment : Fragment(R.layout.movies_fragment), Injectable {
     private fun renderMoviesState(state: MoviesState) {
         with(binding) {
             when (state) {
-                MoviesState.Loading -> {
+                is MoviesState.Loading -> {
                     rvList.gone()
                     progressBar.visible()
                 }
-                is MoviesState.Loaded -> {
+                is MoviesState.MoviesLoaded -> {
                     progressBar.gone()
                     rvList.visible()
                 }

@@ -5,7 +5,6 @@ import app.bettermetesttask.datamovies.database.dao.MoviesDao
 import app.bettermetesttask.datamovies.database.entities.LikedMovieEntity
 import app.bettermetesttask.datamovies.database.entities.MovieEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -16,8 +15,12 @@ class MoviesLocalStore @Inject constructor(
     private val moviesDao: MoviesDao
         get() = database.getMoviesDao()
 
-    suspend fun getMovies(): List<MovieEntity> {
+    fun getMovies(): Flow<List<MovieEntity>> {
         return moviesDao.selectMovies()
+    }
+
+    suspend fun addMovies(list: List<MovieEntity>) {
+        moviesDao.upsertMovies(list)
     }
 
     suspend fun getMovie(id: Int): MovieEntity {

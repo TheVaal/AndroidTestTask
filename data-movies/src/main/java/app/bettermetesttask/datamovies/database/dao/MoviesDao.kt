@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import app.bettermetesttask.datamovies.database.entities.LikedMovieEntity
 import app.bettermetesttask.datamovies.database.entities.MovieEntity
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +14,16 @@ import kotlinx.coroutines.flow.Flow
 interface MoviesDao{
 
     @Query("SELECT * FROM MoviesTable")
-    suspend fun selectMovies(): List<MovieEntity>
+    fun selectMovies(): Flow<List<MovieEntity>>
 
     @Query("SELECT * FROM MoviesTable WHERE id = :id")
     suspend fun selectMovieById(id: Int): List<MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovie(movie: MovieEntity)
+
+    @Upsert
+    suspend fun upsertMovies(movies: List<MovieEntity>)
 
     @Update
     suspend fun updateMovie(movie: MovieEntity)

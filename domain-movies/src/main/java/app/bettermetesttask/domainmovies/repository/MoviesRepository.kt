@@ -8,6 +8,10 @@ interface MoviesRepository {
 
     suspend fun getMovies(): Result<List<Movie>>
 
+    suspend fun getLocalMovies(): Flow<List<Movie>>
+
+    suspend fun addLocalMovies(list: List<Movie>)
+
     suspend fun getMovie(id: Int): Result<Movie>
 
     fun observeLikedMovieIds(): Flow<List<Int>>
